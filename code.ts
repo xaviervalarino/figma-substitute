@@ -74,7 +74,7 @@ const collection = new TextCollection();
 
 figma.ui.onmessage = (msg) => {
   const currentPage = figma.currentPage;
-  if (msg.type === "find-input" && msg.value.length) {
+  if (msg.type === "find-input") {
     collection.findExp(msg.value);
 
     if (currentPage.selection.length) {

@@ -23,7 +23,7 @@
 <script>
   let keyupTimeout;
   document.getElementById("panel").addEventListener("keyup", (e) => {
-    if (e.target.tagName === 'INPUT') {
+    if (e.target.tagName === 'INPUT' && e.target.value.length) {
       clearTimeout(keyupTimeout)
       keyupTimeout = setTimeout(function () {
         parent.postMessage({ pluginMessage: {
