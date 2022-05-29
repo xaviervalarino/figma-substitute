@@ -56,8 +56,8 @@ figma.ui.onmessage = (msg) => {
   const currentPage = figma.currentPage;
   const collection = new TextCollection("string");
 
-  if (msg.type === "find-text") {
-    console.log('value', msg.value)
+  if (msg.type === "find-input") {
+    console.log("value", msg.value);
 
     if (currentPage.selection.length) {
       console.log("inside selection");
