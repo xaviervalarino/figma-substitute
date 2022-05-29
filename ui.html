@@ -20,7 +20,7 @@
 
 <script>
   document.getElementById("find").onclick = () => {
-    const stuff = parent.postMessage(
+    parent.postMessage(
       { pluginMessage: { type: "find-text" } },
       "*"
     );
