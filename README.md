@@ -14,8 +14,9 @@ I have yet to find a community _find and replace_ plugins that handles selection
 
 ## TODO
 
-- [x] Find all nodes on page if no nodes is selected
-- [x] If no nodes are selected, find only nodes that are selected if
+- [x] Find all text on page if nothing is selected
+- [x] When there is a selection, only find text inside that area
+- [x] Add edit text functionality
 - [ ] Add `figma.ui` library for the plugin front-end
 - [ ] Add find/replace functionality
   - [ ] Add UI form for find/replace
@@ -24,3 +25,4 @@ I have yet to find a community _find and replace_ plugins that handles selection
 - [ ] Add regex functionality
   - [ ] Add regex function
   - [ ] Add regex UI toggle
+- [ ] Keep styles for textNodes with mixed fonts/sizes/weights
