@@ -7,23 +7,28 @@
 figma.showUI(__html__);
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
-// posted message.
-figma.ui.onmessage = msg => {
-    // One way of distinguishing between different types of messages sent from
-    // your HTML page is to use an object with a "type" property like this.
-    if (msg.type === 'create-rectangles') {
-        const nodes = [];
-        for (let i = 0; i < msg.count; i++) {
-            const rect = figma.createRectangle();
-            rect.x = i * 150;
-            rect.fills = [{ type: 'SOLID', color: { r: 1, g: 0.5, b: 0 } }];
-            figma.currentPage.appendChild(rect);
-            nodes.push(rect);
+figma.ui.onmessage = (msg) => {
+  let textNodes = [];
+  if (msg.type === "find-text") {
+    if (figma.currentPage.selection.length) {
+      console.log("inside selection");
+      let node;
+      for (node of figma.currentPage.selection) {
+        // TODO: handle "SHAPE_WITH_TEXT"?
+        if (node.type === "TEXT") {
+          textNodes.push(node);
         }
-        figma.currentPage.selection = nodes;
-        figma.viewport.scrollAndZoomIntoView(nodes);
+        if ("findAllWithCriteria" in node) {
+          textNodes = textNodes.concat(
+            node.findAllWithCriteria({ types: ["TEXT"] })
+          );
+        }
+      }
+    } else {
+      textNodes = figma.currentPage.findAllWithCriteria({ types: ["TEXT"] });
     }
-    // Make sure to close the plugin when you're done. Otherwise the plugin will
-    // keep running, which shows the cancel button at the bottom of the screen.
-    figma.closePlugin();
+    console.log(textNodes.map((n) => n.characters));
+    figma.ui.postMessage(textNodes.length);
+  }
+  // figma.closePlugin();
 };

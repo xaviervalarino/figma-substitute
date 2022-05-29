@@ -1,17 +1,14 @@
-<h2>Rectangle Creator</h2>
-<p>Count: <input id="count" value="5"></p>
-<button id="create">Create</button>
-<button id="cancel">Cancel</button>
+<h2>Count Text Nodes</h2>
+<button id="find">Count</button>
+<p>Found nodes: <span id="count">0</span></p>
 <script>
-
-document.getElementById('create').onclick = () => {
-  const textbox = document.getElementById('count');
-  const count = parseInt(textbox.value, 10);
-  parent.postMessage({ pluginMessage: { type: 'create-rectangles', count } }, '*')
-}
-
-document.getElementById('cancel').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-}
-
+  document.getElementById("find").onclick = () => {
+    const stuff = parent.postMessage(
+      { pluginMessage: { type: "find-text" } },
+      "*"
+    );
+  };
+  onmessage = (event) => {
+    document.getElementById("count").textContent = event.data.pluginMessage;
+  };
 </script>
