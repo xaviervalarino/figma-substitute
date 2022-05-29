@@ -6,6 +6,8 @@
 
 I have yet to find a community _find and replace_ plugins that handles selection context and has Regex support. This plugin attempts to address both of those needs.
 
+I'm essentially trying to create find/replace with an experience similar to InDesign and text editors like Sublime.
+
 ## Goals
 
 - Selectively find text inside selection, or all text on the page
