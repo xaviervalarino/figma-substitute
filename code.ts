@@ -11,30 +11,70 @@ figma.showUI(__html__);
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
 
+class TextCollection {
+  private collection: TextNode[];
+  private fonts: Promise<void>[];
+  private getFontNames(node: TextNode): void {
+    if (node.fontName === figma.mixed) {
+      let fonts = node
+        .getRangeAllFontNames(0, node.characters.length)
+        .map((f: FontName) => figma.loadFontAsync(f));
+      this.fonts = this.fonts.concat(fonts);
+    } else {
+      this.fonts.push(figma.loadFontAsync(node.fontName));
+    }
+  }
+  constructor(regex: string) {
+    this.collection = [];
+    this.fonts = [];
+  }
+  add(item: TextNode | TextNode[]) {
+    if (item instanceof Array) {
+      let text: TextNode;
+      for (text of item) this.getFontNames(text);
+      this.collection = this.collection.concat(item);
+    } else {
+      this.collection.push(item);
+      this.getFontNames(item);
+    }
+  }
+  async setText(callback: (characters: string) => string) {
+    await Promise.all(this.fonts);
+    for (const TextNode of this.collection) {
+      TextNode.characters = callback(TextNode.characters);
+    }
+  }
+  get length() {
+    return this.collection.length;
+  }
+  get fontNames() {
+    return this.fonts;
+  }
+}
+
 figma.ui.onmessage = (msg) => {
-  let textNodes: TextNode[] = [];
+  const currentPage = figma.currentPage;
+  const collection = new TextCollection("string");
 
   if (msg.type === "find-text") {
-    if (figma.currentPage.selection.length) {
+    if (currentPage.selection.length) {
       console.log("inside selection");
       let node: SceneNode;
-      for (node of figma.currentPage.selection) {
+      for (node of currentPage.selection) {
         // TODO: handle "SHAPE_WITH_TEXT"?
         if (node.type === "TEXT") {
-          textNodes.push(node);
+          collection.add(node);
         }
         if ("findAllWithCriteria" in node) {
-          textNodes = textNodes.concat(
-            node.findAllWithCriteria({ types: ["TEXT"] })
-          );
+          collection.add(node.findAllWithCriteria({ types: ["TEXT"] }));
         }
       }
     } else {
-      textNodes = figma.currentPage.findAllWithCriteria({ types: ["TEXT"] });
+      collection.add(currentPage.findAllWithCriteria({ types: ["TEXT"] }));
     }
 
-    console.log(textNodes.map((n) => n.characters));
-    figma.ui.postMessage(textNodes.length);
+    collection.setText((text) => text.toUpperCase());
+    figma.ui.postMessage(collection.length);
   }
   // figma.closePlugin();
 };
