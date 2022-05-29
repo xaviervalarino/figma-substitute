@@ -3,19 +3,21 @@
   href="https://static.figma.com/api/figma-extension-api-0.0.1.css"
 />
 
-<h2>Count Text Nodes</h2>
-<div>
-<label>find</label>
-<input></input>
-</div>
-<div>
-<label>replace</label>
-<input></input>
-</div>
-<button id="find">Count</button>
-<div>
-  <p>Found nodes:</p>
-  <p style="font-size: 20px" id="count">0</p>
+<div id="panel">
+  <h2>Count Text Nodes</h2>
+  <div>
+    <label for="find">Find</label>
+    <input type="input" id="find" placeholder="Find" value="" />
+  </div>
+  <div>
+    <label for="replace">Replace</label>
+    <input type="input" id="replace" placeholder="Replace" />
+  </div>
+  <button id="find">Count</button>
+  <div>
+    <p>Found nodes:</p>
+    <p style="font-size: 20px" id="count">0</p>
+  </div>
 </div>
 
 <script>
