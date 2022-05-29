@@ -21,11 +21,20 @@
 </div>
 
 <script>
+  let keyupTimeout;
+  document.getElementById("panel").addEventListener("keyup", (e) => {
+    if (e.target.id === 'find') {
+      clearTimeout(keyupTimeout)
+      keyupTimeout = setTimeout(function () {
+        parent.postMessage({ pluginMessage: {
+          type: "find-text",
+          value: e.target.value }
+        }, "*");
+      }, 700)
+    }
+  });
   document.getElementById("find").onclick = () => {
-    parent.postMessage(
-      { pluginMessage: { type: "find-text" } },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: { type: "find-button" } }, "*");
   };
   onmessage = (event) => {
     document.getElementById("count").textContent = event.data.pluginMessage;

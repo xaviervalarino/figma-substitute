@@ -57,6 +57,8 @@ figma.ui.onmessage = (msg) => {
   const collection = new TextCollection("string");
 
   if (msg.type === "find-text") {
+    console.log('value', msg.value)
+
     if (currentPage.selection.length) {
       console.log("inside selection");
       let node: SceneNode;
