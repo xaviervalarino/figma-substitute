@@ -8,10 +8,12 @@
 // This shows the HTML page in "ui.html".
 figma.showUI(__html__);
 
+console.clear();
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
 
 class TextCollection {
+  private findExpression: RegExp;
   private collection: TextNode[];
   private fonts: Promise<void>[];
   private getFontNames(node: TextNode): void {
@@ -24,16 +26,27 @@ class TextCollection {
       this.fonts.push(figma.loadFontAsync(node.fontName));
     }
   }
-  constructor(regex: string) {
+  constructor() {
     this.collection = [];
     this.fonts = [];
   }
-  add(item: TextNode | TextNode[]) {
+  findExp(expression: string) {
+    this.findExpression = new RegExp(expression);
+    this.collection = [];
+    this.fonts = [];
+  }
+  findNodes(item: TextNode | TextNode[]) {
     if (item instanceof Array) {
-      let text: TextNode;
-      for (text of item) this.getFontNames(text);
-      this.collection = this.collection.concat(item);
-    } else {
+      const matchingNodes = item.filter((n) =>
+        n.characters.match(this.findExpression)
+      );
+      if (matchingNodes.length) {
+        let textNode: TextNode;
+        for (textNode of matchingNodes) this.getFontNames(textNode);
+        this.collection = this.collection.concat(matchingNodes);
+      }
+    } else if (item.characters.match(this.findExpression)) {
+      console.log("match single", item.characters);
       this.collection.push(item);
       this.getFontNames(item);
     }
@@ -44,6 +57,11 @@ class TextCollection {
       TextNode.characters = callback(TextNode.characters);
     }
   }
+  get nodes() {
+    // console.log("exp", this.findExpression);
+    console.log("nodes", this.collection);
+    return this.collection;
+  }
   get length() {
     return this.collection.length;
   }
@@ -52,30 +70,32 @@ class TextCollection {
   }
 }
 
+const collection = new TextCollection();
+
 figma.ui.onmessage = (msg) => {
   const currentPage = figma.currentPage;
-  const collection = new TextCollection("string");
-
-  if (msg.type === "find-input") {
-    console.log("value", msg.value);
+  if (msg.type === "find-input" && msg.value.length) {
+    collection.findExp(msg.value);
 
     if (currentPage.selection.length) {
-      console.log("inside selection");
       let node: SceneNode;
       for (node of currentPage.selection) {
         // TODO: handle "SHAPE_WITH_TEXT"?
         if (node.type === "TEXT") {
-          collection.add(node);
+          collection.findNodes(node);
         }
         if ("findAllWithCriteria" in node) {
-          collection.add(node.findAllWithCriteria({ types: ["TEXT"] }));
+          collection.findNodes(node.findAllWithCriteria({ types: ["TEXT"] }));
         }
       }
     } else {
-      collection.add(currentPage.findAllWithCriteria({ types: ["TEXT"] }));
+      collection.findNodes(
+        currentPage.findAllWithCriteria({ types: ["TEXT"] })
+      );
     }
 
-    collection.setText((text) => text.toUpperCase());
+    currentPage.selection = collection.nodes;
+    // collection.setText((text) => text.toUpperCase());
     figma.ui.postMessage(collection.length);
   }
   // figma.closePlugin();

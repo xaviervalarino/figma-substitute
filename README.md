@@ -21,10 +21,11 @@ I'm essentially trying to create find/replace with an experience similar to InDe
 - [x] Add edit text functionality
 - [ ] Add `figma.ui` library for the plugin front-end
 - [ ] Add find/replace functionality
-  - [ ] Add UI form for find/replace
-  - [ ] Pass in user find string
+  - [x] Add UI form for find/replace
+  - [x] Pass in user find string
   - [ ] Pass in user replace string
 - [ ] Add regex functionality
-  - [ ] Add regex function
+  - [x] Add regex search function
+  - [ ] Add regex replace function
   - [ ] Add regex UI toggle
 - [ ] Keep styles for textNodes with mixed fonts/sizes/weights
