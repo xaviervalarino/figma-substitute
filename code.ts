@@ -30,7 +30,8 @@ class TextCollection {
     this.collection = [];
     this.fonts = [];
   }
-  findExp(expression: string) {
+  findExp(expression: string, regex: Boolean = true) {
+    // TODO: handle match if just a plain string
     this.findExpression = new RegExp(expression);
     this.collection = [];
     this.fonts = [];

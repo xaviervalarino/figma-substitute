@@ -33,7 +33,8 @@ class TextCollection {
             this.fonts.push(figma.loadFontAsync(node.fontName));
         }
     }
-    findExp(expression) {
+    findExp(expression, regex = true) {
+        // TODO: handle match if just a plain string
         this.findExpression = new RegExp(expression);
         this.collection = [];
         this.fonts = [];
@@ -77,7 +78,7 @@ class TextCollection {
 const collection = new TextCollection();
 figma.ui.onmessage = (msg) => {
     const currentPage = figma.currentPage;
-    if (msg.type === "find-input" && msg.value.length) {
+    if (msg.type === "find-input") {
         collection.findExp(msg.value);
         if (currentPage.selection.length) {
             let node;
