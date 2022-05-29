@@ -42,4 +42,5 @@ I'm essentially trying to create find/replace with an experience similar to InDe
       - Would have to append to the root to avoid interfering with frame autolayout
       - Would have to recreate the string, split it into groups, color the match, and then turn the non-matching groups transparent
 - [ ] Keep styles for textNodes with mixed fonts/sizes/weights
-  - Look into using [`getStyledTextSegments`](https://www.figma.com/plugin-docs/api/properties/TextNode-getstyledtextsegments/)
+- Look into using [`getStyledTextSegments`](https://www.figma.com/plugin-docs/api/properties/TextNode-getstyledtextsegments/)
+- Save UI state to storage
