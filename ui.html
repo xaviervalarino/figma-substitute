@@ -23,14 +23,19 @@
 <script>
   let keyupTimeout;
   document.getElementById("panel").addEventListener("keyup", (e) => {
-    if (e.target.tagName === 'INPUT' && e.target.value.length) {
-      clearTimeout(keyupTimeout)
+    if (e.target.tagName === "INPUT" && e.target.value.length) {
+      clearTimeout(keyupTimeout);
       keyupTimeout = setTimeout(function () {
-        parent.postMessage({ pluginMessage: {
-          type: e.target.id,
-          value: e.target.value }
-        }, "*");
-      }, 700)
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: e.target.id,
+              value: e.target.value,
+            },
+          },
+          "*"
+        );
+      }, 700);
     }
   });
   document.getElementById("find-button").onclick = () => {
