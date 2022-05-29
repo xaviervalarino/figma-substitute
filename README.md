@@ -1,14 +1,15 @@
-# Figma Substitute --- another find & replace plugin
+# Figma Substitute— another find & replace plugin
+
+:warning: This plugin is under development :warning:
 
 ## Why?
 
-- The two main _find and replace_ plugins that are available don't offer a good experience.
+I have yet to find a community _find and replace_ plugins that handles selection context and has Regex support. This plugin attempts to address both of those needs.
 
 ## Goals
 
-- If no frame is selected, find/replace all occurences on the page
+- Selectively find text inside selection, or all text on the page
 - Offer complete (or what is available through JS) Regex support
-- Under consideration: use a simple `s/find/replace/flags` string format
 - Learn the Figma API
 
 ## TODO
