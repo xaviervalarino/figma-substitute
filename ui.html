@@ -4,8 +4,20 @@
 />
 
 <h2>Count Text Nodes</h2>
+<div>
+<label>find</label>
+<input></input>
+</div>
+<div>
+<label>replace</label>
+<input></input>
+</div>
 <button id="find">Count</button>
-<p>Found nodes: <span id="count">0</span></p>
+<div>
+  <p>Found nodes:</p>
+  <p style="font-size: 20px" id="count">0</p>
+</div>
+
 <script>
   document.getElementById("find").onclick = () => {
     const stuff = parent.postMessage(
