@@ -1,4 +1,4 @@
-import TextCollection from "./text-collection";
+import TextCollection from "./modules/text-collection";
 
 figma.showUI(__html__);
 
