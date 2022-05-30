@@ -3,13 +3,14 @@ import typescript from "@rollup/plugin-typescript";
 
 export default [
   {
-    input: "./src/ui.js",
+    input: "./src/ui.ts",
     output: {
       format: "iife",
       name: "ui",
       file: "src/build/bundle.js",
     },
     plugins: [
+      typescript(),
       htmlBundle({
         template: "src/ui.html",
         target: "dist/ui.html",

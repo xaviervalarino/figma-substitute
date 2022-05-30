@@ -1,14 +1,16 @@
-let keyupTimeout;
+let keyupTimeout: number;
 let regex = true;
+
 document.getElementById("panel").addEventListener("keyup", (e) => {
-  if (e.target.tagName === "INPUT" && e.target.value.length) {
+  const input = e.target as HTMLInputElement;
+  if (input.tagName === "INPUT" && input.value.length) {
     clearTimeout(keyupTimeout);
     keyupTimeout = setTimeout(function () {
       parent.postMessage(
         {
           pluginMessage: {
-            type: e.target.id,
-            value: e.target.value,
+            type: input.id,
+            value: input.value,
             regex: regex,
           },
         },
@@ -18,12 +20,13 @@ document.getElementById("panel").addEventListener("keyup", (e) => {
   }
 });
 document.getElementById("set-regex").onclick = (e) => {
+  const el = e.currentTarget as HTMLElement;
   e.preventDefault();
-  if (e.currentTarget.className.includes("icon-button--selected")) {
-    e.currentTarget.classList.remove("icon-button--selected");
+  if (el.className.includes("icon-button--selected")) {
+    el.classList.remove("icon-button--selected");
     regex = false;
   } else {
-    e.currentTarget.classList.add("icon-button--selected");
+    el.classList.add("icon-button--selected");
     regex = true;
   }
 };
