@@ -1,6 +1,6 @@
 import { Match, FoundNode } from "./types";
 
-class TextCollection {
+export default class TextCollection {
   constructor() {
     this.collection = [];
   }
@@ -94,5 +94,3 @@ class TextCollection {
   //   return this.fonts;
   // }
 }
-
-export default TextCollection;
