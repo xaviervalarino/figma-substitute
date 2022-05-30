@@ -66,8 +66,6 @@ class TextCollection {
         });
     }
     get nodes() {
-        // console.log("exp", this.findExpression);
-        console.log("nodes", this.collection);
         return this.collection;
     }
     get length() {
