@@ -11,6 +11,7 @@ I'm essentially trying to create find/replace with an experience similar to InDe
 ## Goals
 
 - Selectively find text inside selection, or all text on the page
+- Provide visual feedback for found text
 - Offer complete (or what is available through JS) Regex support
 - Learn the Figma API
 
