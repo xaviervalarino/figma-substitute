@@ -3,6 +3,6 @@
 *.log.*
 node_modules
 
-out/
+# build
 dist/
-code.js
+src/build

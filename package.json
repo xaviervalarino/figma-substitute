@@ -4,13 +4,15 @@
   "description": "Your Figma Plugin",
   "main": "dist/code.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "watch": "tsc -w -p tsconfig.json"
+    "build": "rollup -c",
+    "watch": "rollup -cw"
   },
   "author": "",
   "license": "",
   "devDependencies": {
     "@figma/plugin-typings": "^1.47.0",
-    "typescript": "*"
+    "@rollup/plugin-typescript": "^8.3.2",
+    "rollup": "^2.75.3",
+    "rollup-plugin-html-bundle": "^0.0.3"
   }
 }
