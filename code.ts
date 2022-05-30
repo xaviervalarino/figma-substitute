@@ -13,9 +13,14 @@ console.clear();
 // callback. The callback will be passed the "pluginMessage" property of the
 
 class TextCollection {
-  private findExpression: RegExp;
   private collection: TextNode[];
   private fonts: Promise<void>[];
+  private expression: RegExp | string;
+
+  private match(str: string) {
+    const exp = this.expression;
+    return exp instanceof RegExp ? exp.test(str) : str.includes(exp);
+  }
   private getFontNames(node: TextNode): void {
     if (node.fontName === figma.mixed) {
       let fonts = node
@@ -26,28 +31,25 @@ class TextCollection {
       this.fonts.push(figma.loadFontAsync(node.fontName));
     }
   }
+
   constructor() {
     this.collection = [];
     this.fonts = [];
   }
-  findExp(expression: string, regex: Boolean = true) {
-    // TODO: handle match if just a plain string
-    this.findExpression = new RegExp(expression);
+  findExp(str: string, regex: Boolean) {
     this.collection = [];
     this.fonts = [];
+    this.expression = regex ? new RegExp(str) : str;
   }
   findNodes(item: TextNode | TextNode[]) {
     if (item instanceof Array) {
-      const matchingNodes = item.filter((n) =>
-        n.characters.match(this.findExpression)
-      );
+      const matchingNodes = item.filter((n) => this.match(n.characters));
       if (matchingNodes.length) {
         let textNode: TextNode;
         for (textNode of matchingNodes) this.getFontNames(textNode);
         this.collection = this.collection.concat(matchingNodes);
       }
-    } else if (item.characters.match(this.findExpression)) {
-      console.log("match single", item.characters);
+    } else if (this.match(item.characters)) {
       this.collection.push(item);
       this.getFontNames(item);
     }
@@ -73,10 +75,10 @@ class TextCollection {
 
 const collection = new TextCollection();
 
-figma.ui.onmessage = (msg) => {
+figma.ui.onmessage = ({ type, value, regex }) => {
   const currentPage = figma.currentPage;
-  if (msg.type === "find-input") {
-    collection.findExp(msg.value);
+  if (type === "find-input") {
+    collection.findExp(value, regex);
 
     if (currentPage.selection.length) {
       let node: SceneNode;

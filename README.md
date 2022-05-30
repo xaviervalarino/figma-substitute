@@ -33,7 +33,8 @@ I'm essentially trying to create find/replace with an experience similar to InDe
   - [ ] Add regex replace function
   - [ ] Add regex search flags function: ignore case, global, etc
   - [ ] Look into how to support positive/negative look-ahead and behind
-  - [ ] Add regex UI toggle and flags
+  - [x] Add UI to toggle text/regex
+  - [ ] Add regex UI toggles for flags
 - [ ] Add visual feedback for search selection. Some potential solutions:
   - Underline the text range
   - Change the color of the text range

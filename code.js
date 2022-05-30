@@ -22,6 +22,10 @@ class TextCollection {
         this.collection = [];
         this.fonts = [];
     }
+    match(str) {
+        const exp = this.expression;
+        return exp instanceof RegExp ? exp.test(str) : str.includes(exp);
+    }
     getFontNames(node) {
         if (node.fontName === figma.mixed) {
             let fonts = node
@@ -33,15 +37,14 @@ class TextCollection {
             this.fonts.push(figma.loadFontAsync(node.fontName));
         }
     }
-    findExp(expression, regex = true) {
-        // TODO: handle match if just a plain string
-        this.findExpression = new RegExp(expression);
+    findExp(str, regex) {
         this.collection = [];
         this.fonts = [];
+        this.expression = regex ? new RegExp(str) : str;
     }
     findNodes(item) {
         if (item instanceof Array) {
-            const matchingNodes = item.filter((n) => n.characters.match(this.findExpression));
+            const matchingNodes = item.filter((n) => this.match(n.characters));
             if (matchingNodes.length) {
                 let textNode;
                 for (textNode of matchingNodes)
@@ -49,8 +52,7 @@ class TextCollection {
                 this.collection = this.collection.concat(matchingNodes);
             }
         }
-        else if (item.characters.match(this.findExpression)) {
-            console.log("match single", item.characters);
+        else if (this.match(item.characters)) {
             this.collection.push(item);
             this.getFontNames(item);
         }
@@ -76,10 +78,10 @@ class TextCollection {
     }
 }
 const collection = new TextCollection();
-figma.ui.onmessage = (msg) => {
+figma.ui.onmessage = ({ type, value, regex }) => {
     const currentPage = figma.currentPage;
-    if (msg.type === "find-input") {
-        collection.findExp(msg.value);
+    if (type === "find-input") {
+        collection.findExp(value, regex);
         if (currentPage.selection.length) {
             let node;
             for (node of currentPage.selection) {
