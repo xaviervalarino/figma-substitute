@@ -18,7 +18,7 @@ const collection = new TextCollection();
 figma.ui.onmessage = ({ type, value, regex }) => {
   const currentPage = figma.currentPage;
   if (type === "find-input") {
-    collection.findExp(value, regex);
+    collection.criteria(value, regex);
 
     if (currentPage.selection.length) {
       let node: SceneNode;
