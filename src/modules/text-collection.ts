@@ -1,14 +1,4 @@
-interface Match {
-  position: [number, number];
-  match: string;
-  captured: string[];
-}
-interface FoundNode {
-  textNode: TextNode;
-  match: Match[];
-  transform: Transform;
-  // fontLoaded: Promise<void>;
-}
+import { Match, FoundNode } from "./types";
 
 class TextCollection {
   constructor() {
