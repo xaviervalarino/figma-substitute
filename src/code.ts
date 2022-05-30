@@ -7,13 +7,13 @@ console.clear();
 const collection = new TextCollection();
 
 figma.ui.onmessage = ({ type, value, regex }) => {
-  const currentPage = figma.currentPage;
+  const page = figma.currentPage;
   if (type === "find-input") {
     collection.criteria(value, regex);
 
-    if (currentPage.selection.length) {
+    if (page.selection.length) {
       let node: SceneNode;
-      for (node of currentPage.selection) {
+      for (node of page.selection) {
         // TODO: handle "SHAPE_WITH_TEXT"?
         if (node.type === "TEXT") {
           collection.findNodes(node);
@@ -23,12 +23,10 @@ figma.ui.onmessage = ({ type, value, regex }) => {
         }
       }
     } else {
-      collection.findNodes(
-        currentPage.findAllWithCriteria({ types: ["TEXT"] })
-      );
+      collection.findNodes(page.findAllWithCriteria({ types: ["TEXT"] }));
     }
 
-    currentPage.selection = collection.nodes;
+    page.selection = collection.nodes;
     // collection.setText((text) => text.toUpperCase());
     figma.ui.postMessage(collection.length);
   }
