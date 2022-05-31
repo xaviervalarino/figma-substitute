@@ -108,8 +108,12 @@ export default class TextCollection {
     return this.#collection.map((obj) => obj.textNode);
   }
 
-  get length() {
-    return this.#collection.length;
+  get matchCount() {
+    let count = 0;
+    for (const item of this.#collection) {
+      count += item.match.length
+    }
+    return count
   }
 
   // get fontNames() {

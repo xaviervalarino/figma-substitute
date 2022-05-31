@@ -28,7 +28,7 @@ figma.ui.onmessage = ({ type, value, regex }) => {
 
     page.selection = collection.nodes;
     // collection.setText((text) => text.toUpperCase());
-    figma.ui.postMessage(collection.length);
+    figma.ui.postMessage(collection.matchCount);
   }
   // figma.closePlugin();
 };
