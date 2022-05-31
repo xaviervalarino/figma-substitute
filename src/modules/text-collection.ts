@@ -29,18 +29,6 @@ export default class TextCollection {
     return matches;
   }
 
-  // TODO: maybe delete this method
-  private getFontNames(node: TextNode): void {
-    if (node.fontName === figma.mixed) {
-      let fonts = node
-        .getRangeAllFontNames(0, node.characters.length)
-        .map((f: FontName) => figma.loadFontAsync(f));
-      // this.fonts = this.fonts.concat(fonts);
-    } else {
-      // this.fonts.push(figma.loadFontAsync(node.fontName));
-    }
-  }
-
   criteria(str: string, pattern: Boolean) {
     this.#collection = [];
     // escape expression if searching for a plain string
