@@ -14,7 +14,7 @@ export default class TextCollection {
     let result: RegExpExecArray;
 
     const match = (found: RegExpExecArray): Match => ({
-      position: [found.index, found[0].length - 1],
+      indices: [found.index, found.index + found[0].length - 1],
       match: found.shift(),
       captured: [...found],
     });

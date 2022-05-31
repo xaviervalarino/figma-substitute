@@ -1,5 +1,5 @@
 export interface Match {
-  position: [number, number];
+  indices: [number, number];
   match: string;
   captured: string[];
 }
