@@ -2,14 +2,14 @@ import { Match, FoundNode } from "./types";
 
 export default class TextCollection {
   constructor() {
-    this.collection = [];
+    this.#collection = [];
   }
 
-  private collection: FoundNode[];
-  private pattern: RegExp;
+  #collection: FoundNode[];
+  #pattern: RegExp;
 
   private match(str: string): Match[] {
-    const pattern = this.pattern;
+    const pattern = this.#pattern;
     const matches: Match[] = [];
     let result: RegExpExecArray;
 
@@ -42,19 +42,19 @@ export default class TextCollection {
   }
 
   criteria(str: string, pattern: Boolean) {
-    this.collection = [];
+    this.#collection = [];
     // escape expression if searching for a plain string
     if (pattern) {
       str = str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
     }
-    this.pattern = new RegExp(str, "g");
+    this.#pattern = new RegExp(str, "g");
   }
 
   findNodes(items: TextNode | TextNode[]) {
     if (!(items instanceof Array)) {
       items = [items];
     }
-    this.collection = items.reduce((filtered, n) => {
+    this.#collection = items.reduce((filtered, n) => {
       const found = this.match(n.characters);
       let fonts: FontName[];
 
@@ -105,11 +105,11 @@ export default class TextCollection {
   // }
 
   get nodes() {
-    return this.collection.map((obj) => obj.textNode);
+    return this.#collection.map((obj) => obj.textNode);
   }
 
   get length() {
-    return this.collection.length;
+    return this.#collection.length;
   }
 
   // get fontNames() {
