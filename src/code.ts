@@ -1,4 +1,5 @@
 import TextCollection from "./modules/text-collection";
+import highlight from "./modules/highlight";
 
 figma.showUI(__html__);
 
@@ -25,8 +26,9 @@ figma.ui.onmessage = ({ type, value, regex }) => {
     } else {
       collection.findNodes(page.findAllWithCriteria({ types: ["TEXT"] }));
     }
+    
+    collection.list.length && highlight.create(collection.list);
 
-    page.selection = collection.nodes;
     // collection.setText((text) => text.toUpperCase());
     figma.ui.postMessage(collection.matchCount);
   }
