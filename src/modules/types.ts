@@ -8,5 +8,5 @@ export interface FoundNode {
   textNode: TextNode;
   match: Match[];
   transform: Transform;
-  // fontLoaded: Promise<void>;
+  fonts: FontName[];
 }

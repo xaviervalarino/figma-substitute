@@ -55,13 +55,35 @@ export default class TextCollection {
       items = [items];
     }
     this.collection = items.reduce((filtered, n) => {
-      const match = this.match(n.characters);
-      if (match.length)
+      const found = this.match(n.characters);
+      let fonts: FontName[];
+
+      if (found.length) {
+        fonts = found.reduce((filtered, m, i) => {
+          const fontName = n.getRangeFontName(...m.indices);
+          // TODO: handle figma.mixed
+          if (fontName !== figma.mixed) {
+            let unique = !filtered.some((exists) => {
+              return (
+                fontName.family === exists.family &&
+                fontName.style === exists.style
+              );
+            });
+            if (i === 0 || unique) {
+              filtered.push(fontName);
+            }
+            return filtered;
+          }
+          return filtered;
+        }, []);
+
         filtered.push({
           textNode: n,
-          match: match,
+          match: found,
           transform: n.absoluteTransform,
+          fonts: fonts,
         });
+      }
       return filtered;
     }, []);
   }
