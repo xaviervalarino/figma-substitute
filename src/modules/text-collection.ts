@@ -1,12 +1,13 @@
-import { Match, FoundNode } from "./types";
+import { Match, ListItem } from "./types";
 
 export default class TextCollection {
   constructor() {
     this.#collection = [];
   }
 
-  #collection: FoundNode[];
+  #collection: ListItem[];
   #pattern: RegExp;
+  #newSubstr: string;
 
   private match(str: string): Match[] {
     const pattern = this.#pattern;

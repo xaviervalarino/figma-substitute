@@ -4,7 +4,7 @@ export interface Match {
   captured: string[];
 }
 
-export interface FoundNode {
+export interface ListItem {
   textNode: TextNode;
   match: Match[];
   transform: Transform;
