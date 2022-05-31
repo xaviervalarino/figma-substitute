@@ -104,8 +104,8 @@ export default class TextCollection {
   // return this.collection.map((n) => n.clone());
   // }
 
-  get nodes() {
-    return this.#collection.map((obj) => obj.textNode);
+  get list() {
+    return this.#collection;
   }
 
   get matchCount() {
