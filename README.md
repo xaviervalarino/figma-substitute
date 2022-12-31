@@ -1,6 +1,6 @@
 # Figma Substitute— another find & replace plugin
 
-:warning: This plugin is under development :warning:
+:mega: Due to Figma *finally* adding [Find & Replace](https://help.figma.com/hc/en-us/articles/9141292269847-Find-and-replace-text-in-Figma-files), this plugin is no longer under development and has been archived.
 
 ## Why?
 
